@@ -6,6 +6,8 @@ The full list of things that you should try to get is [here](https://github.com/
 
 ## installation and usage
 
+Grab the top N repos for a particular language
+
 ```bash
 $ git clone https://github.com/lpmi-13/code-corpus-collector
 $ cd code-corpus-collector
@@ -15,6 +17,14 @@ $ node grabRepos.js --language python --number 42
 ```
 
 (if you don't pass in anything for `--language` or `--number`, it defaults to `javascript` and `25`, respectively)
+
+Clone those repos locally
+
+```bash
+node cloneRepos.js
+```
+
+
 
 ## extensions
 

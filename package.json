@@ -9,6 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "acorn": "^8.0.4",
+    "acorn-walk": "^8.0.0",
+    "esprima": "^4.0.1",
+    "git-clone": "^0.2.0",
+    "line-reader": "^0.4.0",
     "node-fetch": "^2.6.1",
     "yargs": "^16.0.3"
   }

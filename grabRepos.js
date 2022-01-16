@@ -6,7 +6,7 @@ const URL = 'https://api.github.com/search/repositories?q=language:LANGUAGE&star
 const OUTPUT_FILE = 'LANGUAGE-results.txt';
 
 const logger = fs.createWriteStream(OUTPUT_FILE.replace('LANGUAGE', argv.language || 'javascript'), {
-  flags: 'a'
+  flags: 'w'
 });
 
 const get_html_urls = json_blob => {
@@ -39,7 +39,7 @@ const grabRepos = async url => {
     const json = await response.json();
     writeOutHTMLLinks(json);
   } catch (error) {
-    console.lot(error);
+    console.log(error);
   }
 };
 
