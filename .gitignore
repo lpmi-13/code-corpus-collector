@@ -5,3 +5,6 @@ node_modules
 javascript
 python
 ruby
+
+# local mongo data
+/data

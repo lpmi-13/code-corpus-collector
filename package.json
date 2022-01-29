@@ -3,18 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "main": "grabRepos.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/generator": "^7.16.8",
+    "@babel/parser": "^7.16.8",
+    "@babel/traverse": "^7.16.8",
     "acorn": "^8.0.4",
     "acorn-walk": "^8.0.0",
+    "babel-types": "^6.26.0",
+    "babel-walk": "^3.0.0",
     "esprima": "^4.0.1",
     "git-clone": "^0.2.0",
     "line-reader": "^0.4.0",
+    "mongodb": "^4.3.1",
     "node-fetch": "^2.6.1",
+    "recast": "^0.20.5",
     "yargs": "^16.0.3"
   }
 }

@@ -24,7 +24,22 @@ Clone those repos locally
 node cloneRepos.js
 ```
 
+...and once you have mongo running (either via a local installation or as described below for a container), run the following to populate the database:
 
+```
+node getFunctions.js
+```
+
+
+## Start mongo in a container locally
+
+In case you're not interested in installing/running mongodb locally, you can use a container that stores the data locally via volumes, like so:
+
+```
+docker run -it --rm -v $(pwd)/data:/data/db -p 27017:27107 mongo:latest
+```
+
+This will put all the data into the local `./data` directory so it will persist across container runs.
 
 ## extensions
 

@@ -1,14 +1,14 @@
 const lineReader = require('line-reader');
 const fs = require('fs');
-//const Git = require('nodegit');
 const clone = require('git-clone');
 
 function processAllRepos(repos) {
-  const repoClonings = repos.map(cloneLocally);
+  repos.forEach(cloneLocally);
 }
 
 const cloneLocally = gitRepo => {
   const repoName = gitRepo.split('/').slice(-2).join('/');
+  // TODO: check here to see if the file path already exists and skip if so
   clone(gitRepo, `javascript/${repoName}`, () => console.log(`cloned ${repoName}`));
 }
 
