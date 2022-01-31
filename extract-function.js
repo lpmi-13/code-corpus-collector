@@ -21,26 +21,18 @@ for await (const file of allFiles('javascript')) {
 
     for (const fn of extractFunctions(code)) {
 
-      // Print function to each line
-      //console.log(JSON.stringify(fn))
       const originalRepoName = file
                                  .split('/')
                                  .slice(1,3)
                                  .join('/')
       const filePath = file.split('/')
-      const originalFileName = filePath[filePath.length - 1]
-      //console.log(file)
-      //console.log(originalRepoName)
-      //console.log(originalFileName)
 
       const functionLines = fn.split('\n')
-      //console.log(functionLines)
-      //console.log(fn + '\n\n')
 
       const fullRepoUrl = `https://github.com/${originalRepoName}`
 
       const codeObject = {
-        "type": "function",
+        "type": "functions",
         "project_source": fullRepoUrl,
         "direct_link_to_file_line": "",
         "contents": {
@@ -48,9 +40,9 @@ for await (const file of allFiles('javascript')) {
           "lines": functionLines,
         },
       };
-      
+
       console.log(`inserting ${fullRepoUrl}...`)
-      collection.insertOne({ "code": codeObject });  
+      collection.insertOne(codeObject);
     }
   }
 }
