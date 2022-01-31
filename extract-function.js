@@ -37,7 +37,7 @@ for await (const file of allFiles('javascript')) {
         "direct_link_to_file_line": "",
         "contents": {
           "total_lines": functionLines.length,
-          "lines": functionLines,
+          "lines": functionLines.map((i, fn) => {"line_number": i+1, "line_content": fn}),
         },
       };
 
@@ -46,7 +46,6 @@ for await (const file of allFiles('javascript')) {
     }
   }
 }
-
 
 /** recursively get all files */
 async function* allFiles(directory) {
