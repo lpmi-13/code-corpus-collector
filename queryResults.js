@@ -44,7 +44,7 @@ async function extractFunctions ({ lowerBound, projectName, upperBound }) {
   await projectResults.forEach((result) => {
       if (lowerBound < 6) {
         resultsMap[result['type']]['small'].push(JSON.stringify(result))
-      } else if (lowerBound > 10) {
+      } else if (lowerBound >= 10) {
         resultsMap[result['type']]['large'].push(JSON.stringify(result))
       } else {
         resultsMap[result['type']]['medium'].push(JSON.stringify(result))

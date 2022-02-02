@@ -34,10 +34,14 @@ for await (const file of allFiles('javascript')) {
       const codeObject = {
         "type": "functions",
         "project_source": fullRepoUrl,
+        // no straightforward way to get this yet, but we would need
+        // it for a direct link to the line in github
         "direct_link_to_file_line": "",
         "contents": {
           "total_lines": functionLines.length,
-          "lines": functionLines.map((i, fn) => {"line_number": i+1, "line_content": fn}),
+          "lines": functionLines.map((fn, i) => {
+             return {"line_number": i+1, "line_content": fn}
+          }),
         },
       };
 
