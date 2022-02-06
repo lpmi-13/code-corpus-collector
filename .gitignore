@@ -2,9 +2,8 @@ node_modules
 *results.txt
 
 # individual language local clones
-javascript
-python
-ruby
+*/repositories
+*/repositories.txt
 
 # local mongo data
 /data

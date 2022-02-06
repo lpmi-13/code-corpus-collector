@@ -13,14 +13,15 @@ $ git clone https://github.com/lpmi-13/code-corpus-collector
 $ cd code-corpus-collector
 $ npm i
 $ node grabRepos.js --language python --number 42
-// results available in python-results.txt
+// results available in python/repositories.txt
 ```
 
-(if you don't pass in anything for `--language` or `--number`, it defaults to `javascript` and `25`, respectively)
+> (if you don't pass in anything for `--language` or `--number`, it defaults to `javascript` and `25`, respectively)
 
 Clone those repos locally
 
 ```bash
+cd javascript
 node cloneRepos.js
 ```
 
