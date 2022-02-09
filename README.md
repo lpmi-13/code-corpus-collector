@@ -4,6 +4,12 @@ inspired by the exciting(!!!) though incomplete work in [python-code-corpus](htt
 
 The full list of things that you should try to get is [here](https://github.com/fkling/astexplorer)...I'm not immediately sure why the list in the README doesn't mention python, though it's clearly available in the web UI linked there. Oh well, we'll worry about that later!
 
+## Current languages with function parsing pipelines
+
+- Javascript
+- Python
+- Typescript
+
 ## installation and usage
 
 Grab the top N repos for a particular language

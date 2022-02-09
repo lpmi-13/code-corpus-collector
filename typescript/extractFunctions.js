@@ -5,7 +5,7 @@ import _traverse from "@babel/traverse";
 const traverse = _traverse.default;
 import { MongoClient } from 'mongodb';
 
-const DATABASE_NAME = 'javascript';
+const DATABASE_NAME = 'typescript';
 const COLLECTION_NAME = 'functions';
 
 const mongoUri = `mongodb://localhost:27017/${DATABASE_NAME}`;
@@ -15,7 +15,7 @@ await mongoClient.connect();
 const collection = mongoClient.db().collection(`${COLLECTION_NAME}`);
 
 for await (const file of allFiles('repositories')) {
-  if (file.endsWith('.js')) {
+  if (file.endsWith('.ts')) {
     const buffer = await readFile(file)
     const code = buffer.toString()
 
@@ -72,7 +72,12 @@ async function* allFiles(directory) {
 function extractFunctions(code) {
   try {
     const fns = []
-    const ast = parser.parse(code, { sourceType: "module" })
+    const ast = parser.parse(code, {
+      sourceType: "module",
+      plugins: [
+        "typescript",
+      ]
+    });
 
     traverse(ast, {
       enter({ node: { type, start, end } }) {

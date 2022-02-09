@@ -1,5 +1,5 @@
 node_modules
-*results.txt
+*output.json
 
 # individual language local clones
 */repositories
