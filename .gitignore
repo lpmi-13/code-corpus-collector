@@ -7,3 +7,6 @@ node_modules
 
 # local mongo data
 /data
+
+# json for extracted functions
+*/function-results.json
