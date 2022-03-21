@@ -62,8 +62,12 @@ func main() {
 			// and here we open the file and read it into our "parseAST function"
 			node, err := parser.ParseFile(fset, path, nil, parser.DeclarationErrors)
 			if err != nil {
+				// sometimes there are weird cases where the AST parser fails
+				// (eg, for one particular file in golang/go, bizarrely)
+				// ...so we just skip those
 				fmt.Println("Error parsing file: " + path)
-				os.Exit(255)
+				fmt.Println("skipping this one...")
+				return nil
 			}
 
 			ast.Inspect(node, func(n ast.Node) bool {
