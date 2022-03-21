@@ -2,10 +2,11 @@
 
 inspired by the exciting(!!!) though incomplete work in [python-code-corpus](https://github.com/lpmi-13/python-code-corpus), this is an attempt to be able to grab examples of code from "a bunch"(&copy;) of different programming languages.
 
-The full list of things that you should try to get is [here](https://github.com/fkling/astexplorer)...I'm not immediately sure why the list in the README doesn't mention python, though it's clearly available in the web UI linked there. Oh well, we'll worry about that later!
+The implementation has one different language AST parser per language, particularly since I wanted to do more things with go, but it could probably benefit from a more general approach, with something like [tree-sitter](https://github.com/tree-sitter/tree-sitter). What's currently here works, but is not very nice.
 
 ## Current languages with function parsing pipelines
 
+- Golang
 - Javascript
 - Python
 - Typescript
@@ -45,6 +46,22 @@ and then once things are in Mongo, you can get them with
 node queryResults.js
 ```
 
+## Work with python repos
+
+```
+cd python
+python walker.py
+```
+
+and once things are populated in mongo, you can run
+
+```
+python extract_functions.py
+```
+
+to generate a local json file.
+
+
 ## Work with typescript repos
 
 The same as the "Work with Javascript repos", except run the commands from the `typescript` directory.
@@ -64,7 +81,7 @@ and once the repos are cloned locally (and you have mongo running), go ahead and
 go run main.go mongodb://localhost:27017
 ```
 
-if you'd like the grab them out of mongo, there will eventually be a go file for that as well.
+if you'd like the grab them out of mongo, there will eventually be a go file for that as well, but currently, you can just adjust `python/extract_functions.py`.
 
 
 ## Start mongo in a container locally
