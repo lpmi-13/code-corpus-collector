@@ -7,7 +7,7 @@ NUMBERS_OF_LINES = ((3,6), (5,9), (7,12))
 try:
     client = MongoClient(host= ['localhost:27017'], serverSelectionTimeoutMS = 2000)
     client.server_info()
-    db = client.ast
+    db = client.python
 except:
     print('mongo isn\'t currently running...please start it first')
     sys.exit()

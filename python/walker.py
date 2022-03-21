@@ -9,6 +9,7 @@ from pymongo import MongoClient
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-D", "--delete_clones", help="delete cloned repos after processing", action="store_true")
+parser.add_argument("-V", "--verbose", help="output verbose logging", action="store_true")
 
 args = parser.parse_args()
 
@@ -18,7 +19,7 @@ REPO_DIR = 'repositories'
 try:
     client = MongoClient(host = ['localhost:27017'], serverSelectionTimeoutMS = 2000)
     client.server_info()
-    db = client.ast
+    db = client.python
 except:
     print('mongo isn\'t running yet...please start it first')
     sys.exit()
@@ -45,7 +46,7 @@ def extract_and_store(node, mongo_collection, filepath, full_repo_url):
     filename = filepath.split('/')[-1]
     # copy it back to what it looks like in the source, conveniently incorporating whitespace
     code = astor.to_source(node)
-    split_code = [line for line in code.split('\n') if line is not '']
+    split_code = [line for line in code.split('\n') if line != '']
 
     # this is ugly, but the quickest way to get the file contents by line, which we need for the direct link to the file in github
     with open(filepath, 'r') as input_file:
@@ -69,18 +70,21 @@ def extract_and_store(node, mongo_collection, filepath, full_repo_url):
             break
 
     try:
-        print('file path being written is {}'.format(file_path_in_remote_repo))
-        mongo_collection.insert_one({"type": "{}".format(mongo_collection.name),
+        if args.verbose:
+            print(f'file path being written is {file_path_in_remote_repo}')
+        mongo_collection.insert_one({"type": f"{mongo_collection.name}",
                              "project_source": full_repo_url,
-                             "direct_link_to_file_line": full_repo_url + GITHUB_FILE_PATH_INTERMEDIATE + '/'.join(file_path_in_remote_repo) + '#L{}'.format(original_file_line),
+                             "direct_link_to_file_line": full_repo_url + GITHUB_FILE_PATH_INTERMEDIATE + '/'.join(file_path_in_remote_repo) + f'#L{original_file_line}',
                              "contents": {
                                "total_lines": len(split_code),
                                "lines": [convert_code_line(ind,x) for ind, x in enumerate(split_code)] }})
-        print('inserting {} from {}...'.format(mongo_collection.name, filepath))
-        print('\n')
+        if args.verbose:
+            print(f'inserting {mongo_collection.name} from {filepath}...')
+            print('\n')
 
     except:
-        print('skipping this one, for reasons...')
+        if ars.verbose:
+            print('skipping this one, for reasons...')
 
 def grab_examples(full_repo_url, filepath):
     """
@@ -122,11 +126,13 @@ def grab_examples(full_repo_url, filepath):
                     if isinstance(node.value, ast.SetComp):
                         extract_and_store(node, setcomps, filepath, full_repo_url)
         except:
-            print('ast parse error, skip this one')
+            if args.verbose:
+                print('ast parse error, skip this one')
     except:
-        print('skip this file')
+        if args.verbose:
+            print('skip this file')
 
-with open('{}_repo_urls.txt'.format(language), 'r') as input_file:
+with open('repositories.txt', 'r') as input_file:
     urls = input_file.readlines()
 
 if not os.path.exists(REPO_DIR):
@@ -136,12 +142,14 @@ for url in urls:
     url = url.strip()
     local_dir_name = os.path.join(REPO_DIR, url.split('/')[-1])
 
-    print('cloning {}...'.format(url))
+    print(f'cloning {url}...')
     
     try:
-        git.Git('{}'.format(REPO_DIR)).clone(url)
+        git.Git(f'{REPO_DIR}').clone(url)
     except:
         print('directory already exists...skipping...')
+
+    print(f'processing {local_dir_name}...')
 
     for path, subdirs, files in os.walk(local_dir_name):
         for name in files:
@@ -149,5 +157,5 @@ for url in urls:
                 grab_examples(url, os.path.join(path, name))
 
     if args.delete_clones:
-        print('deleting {}'.format(local_dir_name))
+        print(f'deleting {local_dir_name}')
         shutil.rmtree(local_dir_name)
