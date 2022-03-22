@@ -10,7 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/generator": "^7.16.8",
+    "@babel/parser": "^7.16.8",
+    "@babel/traverse": "^7.16.8",
+    "babel-types": "^6.26.0",
+    "babel-walk": "^3.0.0",
     "commander": "^9.0.0",
-    "node-fetch": "^2.6.1"
+    "git-clone": "^0.2.0",
+    "line-reader": "^0.4.0",
+    "mongodb": "^4.3.1"
   }
 }

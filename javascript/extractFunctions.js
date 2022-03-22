@@ -3,7 +3,14 @@ import { join } from 'path'
 import * as parser from "@babel/parser";
 import _traverse from "@babel/traverse";
 const traverse = _traverse.default;
+import { program } from 'commander';
 import { MongoClient } from 'mongodb';
+
+program
+  .option('-v, --verbose', 'verbose log level', false)
+
+program.parse();
+const options = program.opts();
 
 const DATABASE_NAME = 'javascript';
 const COLLECTION_NAME = 'functions';
@@ -13,6 +20,8 @@ const mongoClient = new MongoClient(mongoUri);
 await mongoClient.connect();
 
 const collection = mongoClient.db().collection(`${COLLECTION_NAME}`);
+
+console.log('starting to process files...')
 
 for await (const file of allFiles('repositories')) {
   if (file.endsWith('.js')) {
@@ -45,7 +54,9 @@ for await (const file of allFiles('repositories')) {
         },
       };
 
-      console.log(`inserting ${fullRepoUrl}...`)
+      if (options.verbose) {
+        console.log(`inserting ${fullRepoUrl}...`)
+      }
       collection.insertOne(codeObject);
     }
   }
@@ -88,5 +99,3 @@ function extractFunctions(code) {
   }
 }
 
-console.log('closing mongo connection...');
-mongoClient.close();
