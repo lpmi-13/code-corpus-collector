@@ -25,6 +25,10 @@ $ node grabRepos.js --language python --number 42
 
 > (if you don't pass in anything for `--language` or `--number`, it defaults to `javascript` and `25`, respectively)
 
+For all runs to grab more that 100 repos, the results come back in multiples of 100 (eg, `node grabRepos.js --number 350` will bring back 400 results). I thought about making the logic very complex to enable grabbing _exactly_ 350 in this case, but the paging would require more complexity than I care about, plus it's highly likely that anybody interested in more than 10 repos probably wants the full 1000 anyway.
+
+**NOTE:** Due to the limitations of the GitHub search API, it's only possible to bring back 1,000 results, so that's going to be the foundational number of premilinary efforts at compiling this corpus. We can try to get more trixy later (eg, use alternate sorting mechanisms or queries), but this is the easiest thing to do at the moment.
+
 ## Work with Javascript repos
 
 Clone those repos locally

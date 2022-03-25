@@ -9,7 +9,25 @@ program
 program.parse();
 const options = program.opts();
 
-const URL = 'https://api.github.com/search/repositories?q=language:LANGUAGE&stars:%3E0&sort=stars&per_page=PER_PAGE';
+let perPage;
+let totalPages;
+let remainder;
+const totalResults = options.number;
+
+if (totalResults > 100) {
+  perPage = 100;
+  remainder = totalResults % perPage
+  if (remainder !== 0) {
+     totalPages = Math.floor(totalResults / perPage) + 1
+  } else {
+    totalPages = Math.floor(totalResults / perPage)
+  }
+} else {
+  totalPages = 1;
+  perPage = options.number;
+}
+
+const URL = 'https://api.github.com/search/repositories?q=language:LANGUAGE&stars:%3E0&sort=stars&per_page=PER_PAGE&page=PAGE_NUMBER';
 const OUTPUT_FILE = `LANGUAGE/repositories.txt`;
 
 const logger = fs.createWriteStream(OUTPUT_FILE.replace('LANGUAGE', options.language || 'javascript'), {
@@ -38,10 +56,11 @@ const writeOutHTMLLinks = json => {
   }
 }
 
-const grabRepos = async url => {
+const grabRepos = async (url, perPage, pageNumber) => {
   try {
     const full_url = URL.replace('LANGUAGE', options.language || 'javascript')
-                        .replace('PER_PAGE', options.number || '25');
+                        .replace('PER_PAGE', perPage)
+                        .replace('PAGE_NUMBER', pageNumber);
     const response = await fetch(full_url);
     const json = await response.json();
     writeOutHTMLLinks(json);
@@ -50,4 +69,6 @@ const grabRepos = async url => {
   }
 };
 
-grabRepos(URL);
+for (let i = 0; i < totalPages ; i++) {
+  grabRepos(URL, perPage, i + 1);
+}
