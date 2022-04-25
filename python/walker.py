@@ -1,10 +1,10 @@
-import git
+import argparse
 import ast
 import astor
+import git
 import os
-import sys
 import shutil
-import argparse
+import sys
 from pymongo import MongoClient
 
 parser = argparse.ArgumentParser()
@@ -145,7 +145,7 @@ for url in urls:
     print(f'cloning {url}...')
     
     try:
-        git.Git(f'{REPO_DIR}').clone(url)
+        git.Git(f'{REPO_DIR}').clone(url, depth=1)
     except:
         print('directory already exists...skipping...')
 
