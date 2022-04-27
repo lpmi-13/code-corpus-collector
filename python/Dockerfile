@@ -11,4 +11,4 @@ RUN pip install -r /tmp/requirements.txt
 COPY walker.py /app
 COPY repositories.txt /app
 
-ENTRYPOINT ["python", "walker.py", "--delete_clones"]
+ENTRYPOINT ["python", "walker.py", "-D"]
