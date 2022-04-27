@@ -27,7 +27,7 @@ if (totalResults > 100) {
   perPage = options.number;
 }
 
-const URL = 'https://api.github.com/search/repositories?q=language:LANGUAGE&stars:%3E0&sort=stars&per_page=PER_PAGE&page=PAGE_NUMBER';
+const URL = 'https://api.github.com/search/repositories?q=language:LANGUAGE&archived:false&stars:%3E0&sort=stars&per_page=PER_PAGE&page=PAGE_NUMBER';
 const OUTPUT_FILE = `LANGUAGE/repositories.txt`;
 
 const logger = fs.createWriteStream(OUTPUT_FILE.replace('LANGUAGE', options.language || 'javascript'), {
