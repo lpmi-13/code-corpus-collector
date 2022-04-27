@@ -24,18 +24,7 @@ except:
     print('mongo isn\'t running yet...please start it first')
     sys.exit()
 
-fors = db.fors
-ifs = db.ifs
-whiles = db.whiles
 functions = db.functions
-asyncfunctions = db.asyncfunctions
-lists = db.lists
-listcomps = db.listcomps
-dicts = db.dicts
-dictcomps = db.dictcomps
-sets = db.sets
-setcomps = db.setcomps
-
 
 def convert_code_line(index, contents):
     return {"line_number": index + 1, "line_content": contents}
@@ -103,28 +92,7 @@ def grab_examples(full_repo_url, filepath):
                     extract_and_store(node, functions, filepath, full_repo_url)
                 if isinstance(node, ast.AsyncFunctionDef):
                     extract_and_store(node, asyncfunctions, filepath, full_repo_url)
-                if isinstance(node, ast.If):
-                    extract_and_store(node, ifs, filepath, full_repo_url)
-                if isinstance(node, ast.While):
-                    extract_and_store(node, whiles, filepath, full_repo_url)
-                if isinstance(node, ast.For):
-                    extract_and_store(node, fors, filepath, full_repo_url)
 
-                if isinstance(node, ast.Assign):
-                    # we're filtering out empty list assignment for now
-                    if isinstance(node.value, ast.List) and node.value.elts != []:
-                        extract_and_store(node, lists, filepath, full_repo_url)
-                    if isinstance(node.value, ast.ListComp):
-                        extract_and_store(node, listcomps, filepath, full_repo_url)
-                    # we're filtering out empty dict assignment for now
-                    if isinstance(node.value, ast.Dict) and node.value.keys != []:
-                        extract_and_store(node, dicts, filepath, full_repo_url)
-                    if isinstance(node.value, ast.DictComp):
-                        extract_and_store(node, dictcomps, filepath, full_repo_url)
-                    if isinstance(node.value, ast.Set):
-                        extract_and_store(node, sets, filepath, full_repo_url)
-                    if isinstance(node.value, ast.SetComp):
-                        extract_and_store(node, setcomps, filepath, full_repo_url)
         except:
             if args.verbose:
                 print('ast parse error, skip this one')
