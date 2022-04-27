@@ -2,6 +2,7 @@ import argparse
 import ast
 import astor
 import git
+import logging
 import os
 import shutil
 import sys
@@ -114,16 +115,17 @@ for url in urls:
     
     try:
         git.Git(f'{REPO_DIR}').clone(url, depth=1)
-    except:
-        print('directory already exists...skipping...')
 
-    print(f'processing {local_dir_name}...')
+        print(f'processing {local_dir_name}...')
 
-    for path, subdirs, files in os.walk(local_dir_name):
-        for name in files:
-            if name.endswith('.py'):
-                grab_examples(url, os.path.join(path, name))
+        for path, subdirs, files in os.walk(local_dir_name):
+            for name in files:
+                if name.endswith('.py'):
+                    grab_examples(url, os.path.join(path, name))
 
-    if args.delete_clones:
-        print(f'deleting {local_dir_name}')
-        shutil.rmtree(local_dir_name)
+        if args.delete_clones:
+            print(f'deleting {local_dir_name}')
+            shutil.rmtree(local_dir_name)
+
+    except Exception as Argument:
+        logging.exception('error occurred while handling repo')
