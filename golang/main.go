@@ -56,13 +56,12 @@ func main() {
 		log.Fatal(err)
 	}
 	separateRepos := strings.Split(string(contents), "\n")
-	// fmt.Println(separateRepos)
+
 	for i := 0; i < len(separateRepos)-1; i++ {
-		fmt.Println("repo name is:", separateRepos[i])
 		// we need this to clone and insert into the json structure
 		fullURl := separateRepos[i]
 		justRepo := separateRepos[i][len(substringToCut):]
-		fmt.Println("short name:", justRepo)
+
 		fmt.Println("cloning repo:", justRepo)
 
 		_, err = git.PlainClone(repoDirectory+"/"+justRepo, false, &git.CloneOptions{
@@ -86,8 +85,6 @@ func main() {
 
 				pathArray := strings.Split(path, "/")
 				parsedSource := strings.Join(pathArray[0:3], "/")
-				fmt.Println("processing:", parsedSource)
-
 				fset := token.NewFileSet()
 				// and here we open the file and read it into our "parseAST function"
 				node, err := parser.ParseFile(fset, path, nil, parser.DeclarationErrors)
@@ -123,7 +120,8 @@ func main() {
 						}
 						_, err = mongo_collection.InsertOne(ctx, snippet)
 						if err != nil {
-							log.Fatal(err)
+							// we get so many functions back that we can just skip ones that error here
+							fmt.Println("skipping this one:", err)
 						}
 					}
 					return true

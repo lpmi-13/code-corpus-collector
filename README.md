@@ -52,9 +52,11 @@ node queryResults.js
 
 ## Work with python repos
 
+> you probably want to pass the -D flag so the the repos get deleted after processing
+
 ```
 cd python
-python walker.py
+python walker.py -D
 ```
 
 and once things are populated in mongo, you can run
