@@ -34,6 +34,7 @@ def extract_and_store(node, mongo_collection, filepath, full_repo_url):
 
     file_path_in_remote_repo = filepath.split('/')[2:]
     filename = filepath.split('/')[-1]
+
     # copy it back to what it looks like in the source, conveniently incorporating whitespace
     code = astor.to_source(node)
     split_code = [line for line in code.split('\n') if line != '']
@@ -63,6 +64,7 @@ def extract_and_store(node, mongo_collection, filepath, full_repo_url):
         if args.verbose:
             print(f'file path being written is {file_path_in_remote_repo}')
         mongo_collection.insert_one({"type": f"{mongo_collection.name}",
+                             "language": "python",
                              "project_source": full_repo_url,
                              "direct_link_to_file_line": full_repo_url + GITHUB_FILE_PATH_INTERMEDIATE + '/'.join(file_path_in_remote_repo) + f'#L{original_file_line}',
                              "contents": {

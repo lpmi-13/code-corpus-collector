@@ -70,6 +70,10 @@ func main() {
 			Progress: os.Stdout,
 		})
 
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		// here's where we walk the repositories directory recursively and find all the *.go files
 		err = filepath.Walk(repoDirectory+"/"+justRepo,
 			func(path string, info os.FileInfo, err error) error {
@@ -112,6 +116,7 @@ func main() {
 						// and this was the convention I picked
 						snippet := bson.M{
 							"type":           "functions",
+							"language":       "golang",
 							"project_source": "https://github.com/" + parsedSource,
 							"contents": bson.M{
 								"total_lines": len(lines),
@@ -146,6 +151,11 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("Connection to MongoDB closed.")
+	err = os.RemoveAll(repoDirectory)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("deleted repositories directory.")
 }
 
 func convertCodeContent(lines []string) []CodeContent {

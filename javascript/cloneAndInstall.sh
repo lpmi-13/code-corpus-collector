@@ -12,3 +12,5 @@ do
   node extractFunctions.js repositories/$repoName
   rm -rf repositories/$repoName
 done < repositories.txt
+
+rm -rf repositories

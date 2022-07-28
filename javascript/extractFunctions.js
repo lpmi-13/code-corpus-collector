@@ -76,6 +76,7 @@ async function grabFunctions(repoName) {
 
         const codeObject = {
           "type": "functions",
+          "language": "javascript",
           "project_source": fullRepoUrl,
           // no straightforward way to get this yet, but we would need
           // it for a direct link to the line in github
