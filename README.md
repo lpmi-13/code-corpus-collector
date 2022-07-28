@@ -74,14 +74,7 @@ The same as the "Work with Javascript repos", except run the commands from the `
 
 ## Work with golang repos
 
-clone those repos locally
-
-```bash
-cd golang
-go run cmd/grab-repos.go
-```
-
-and once the repos are cloned locally (and you have mongo running), go ahead and parse the files into ASTs and insert them into mongo:
+To clone the repos locally (once you have mongo running),and then go ahead and parse the files into ASTs and insert them into mongo:
 
 ```bash
 go run main.go mongodb://localhost:27017
